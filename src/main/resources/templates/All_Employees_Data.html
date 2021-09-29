@@ -1,0 +1,61 @@
+<html xmlns:th="https://www.thymeleaf.org/">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+      integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0="
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <div class="card-header bg-primary">
+          <h1 class="text-center text-white">EMPLOYEES DATA</h1>
+        </div>
+        <div class="card-body">
+          <table class="table table-hover table-bordered">
+            <tr class="bg-info text-center text-white">
+              <th>ID</th>
+              <th>NAME</th>
+              <th>ADDRESS</th>
+              <th>SALARY</th>
+              <th>DESIGNATION</th>
+              <th>GENDER</th>
+              <th colspan="3">TIMINGS</th>
+              <th colspan="2">OPERATIONS</th>
+            </tr>
+            <tr th:each="data:${employees}" class="bg-success text-center text-white">
+                <td th:text="${data.empId}"></td>
+                <td th:text="${data.empName}"></td>
+                <td th:text="${data.empAddress}"></td>
+                <td th:text="${data.empSalary}"></td>
+                <td th:text="${data.empDesg}"></td>
+                <td th:text="${data.empGender}"></td>
+                <td th:each="array:${data.empTimings}" th:text="${array}"></td>
+                <td th:if="${#arrays.length(data.empTimings) ne 3}"></td>
+               	<td th:if="${#arrays.length(data.empTimings) eq 1}"></td>
+                <td>
+                    <a th:href="@{/employee/edit_employee_page(id=${data.empId})}" class="btn btn-danger">EDIT <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                </td>
+                <td>
+                    <a th:href="@{/employee/delete_employee(id=${data.empId})}" onclick="return confirm('Are You Sure You Want To Delete?')" class="btn btn-danger">DELETE <i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                </td>
+            </tr>
+          </table>
+        </div>
+        <div class="card-footer bg-warning" th:if="${message!=null} or ${result!=null}">
+            <h3 class="text-center text-white" th:text="${result}"></h3>
+            <h3 class="text-center text-white" th:text="${message}"></h3>
+        </div>
+      </div>
+    </div>
+    <h3 class="text-center"><a th:href="@{/employee/register}">Register Employee Data</a></h3>
+  </body>
+</html>
